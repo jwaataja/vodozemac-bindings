@@ -36,3 +36,19 @@ pub fn ed25519_key_from_base64(key: &str) -> Result<Box<Ed25519PublicKey>, anyho
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Ed25519Signature(pub(crate) vodozemac::Ed25519Signature);
+
+impl Ed25519Signature {
+    pub fn from_base64(signature: &str) -> Result<Box<Ed25519Signature>, anyhow::Error> {
+        Ok(Ed25519Signature(vodozemac::Ed25519Signature::from_base64(signature)?).into())
+    }
+
+    pub fn to_base64(&self) -> String {
+        self.0.to_base64()
+    }
+}
+
+pub fn ed25519_signature_from_base64(
+    signature: &str,
+) -> Result<Box<Ed25519Signature>, anyhow::Error> {
+    Ed25519Signature::from_base64(signature)
+}
