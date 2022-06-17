@@ -36,6 +36,10 @@ impl Session {
             false
         }
     }
+
+    pub fn has_received_message(&self) -> bool {
+        self.0.has_received_message()
+    }
 }
 
 pub fn session_from_pickle(

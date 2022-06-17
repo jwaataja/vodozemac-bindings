@@ -97,6 +97,7 @@ mod ffi {
         fn decrypt(self: &mut Session, message: &OlmMessage) -> Result<String>;
         fn session_from_pickle(pickle: &str, pickle_key: &[u8; 32]) -> Result<Box<Session>>;
         fn pickle(self: &Session, pickle_key: &[u8; 32]) -> String;
+        fn has_received_message(self: &Session) -> bool;
 
         type OlmMessage;
         fn to_parts(self: &OlmMessage) -> OlmMessageParts;
