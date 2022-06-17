@@ -37,6 +37,19 @@ impl Session {
         }
     }
 
+    pub fn session_matches_from(
+        &self,
+        their_identitiy_key: &Curve25519PublicKey,
+        message: &OlmMessage,
+    ) -> bool {
+        if let vodozemac::olm::OlmMessage::PreKey(m) = &message.0 {
+            self.0.session_keys() == m.session_keys()
+                && self.0.session_keys().identity_key == their_identitiy_key.0
+        } else {
+            false
+        }
+    }
+
     pub fn has_received_message(&self) -> bool {
         self.0.has_received_message()
     }

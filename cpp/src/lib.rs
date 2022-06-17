@@ -93,6 +93,11 @@ mod ffi {
         fn session_id(self: &Session) -> String;
         fn session_keys(self: &Session) -> SessionKeys;
         fn session_matches(self: &Session, message: &OlmMessage) -> bool;
+        fn session_matches_from(
+            self: &Session,
+            their_identitiy_key: &Curve25519PublicKey,
+            message: &OlmMessage,
+        ) -> bool;
         fn encrypt(self: &mut Session, plaintext: &str) -> Box<OlmMessage>;
         fn decrypt(self: &mut Session, message: &OlmMessage) -> Result<String>;
         fn session_from_pickle(pickle: &str, pickle_key: &[u8; 32]) -> Result<Box<Session>>;
