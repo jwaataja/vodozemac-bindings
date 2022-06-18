@@ -15,7 +15,7 @@ use group_sessions::{
     InboundGroupSession, MegolmMessage, SessionKey,
 };
 use sas::{mac_from_base64, new_sas, EstablishedSas, Mac, Sas, SasBytes};
-use session::{session_from_pickle, Session};
+use session::{session_from_libolm_pickle, session_from_pickle, Session};
 use types::{
     curve_key_from_base64, ed25519_key_from_base64, ed25519_signature_from_base64,
     Curve25519PublicKey, Ed25519PublicKey, Ed25519Signature,
@@ -101,6 +101,7 @@ mod ffi {
         fn encrypt(self: &mut Session, plaintext: &str) -> Box<OlmMessage>;
         fn decrypt(self: &mut Session, message: &OlmMessage) -> Result<String>;
         fn session_from_pickle(pickle: &str, pickle_key: &[u8; 32]) -> Result<Box<Session>>;
+        fn session_from_libolm_pickle(pickle: &str, pickle_key: &str) -> Result<Box<Session>>;
         fn pickle(self: &Session, pickle_key: &[u8; 32]) -> String;
         fn has_received_message(self: &Session) -> bool;
 
