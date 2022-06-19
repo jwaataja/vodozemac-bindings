@@ -65,7 +65,7 @@ pub fn session_from_pickle(
 
 pub fn session_from_libolm_pickle(
     pickle: &str,
-    pickle_key: &str,
+    pickle_key: &[u8],
 ) -> Result<Box<Session>, anyhow::Error> {
     Ok(Session(vodozemac::olm::Session::from_libolm_pickle(
         pickle, pickle_key,

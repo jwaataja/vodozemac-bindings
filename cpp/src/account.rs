@@ -40,7 +40,7 @@ pub fn account_from_pickle(
 
 pub fn account_from_libolm_pickle(
     pickle: &str,
-    pickle_key: &str,
+    pickle_key: &[u8],
 ) -> Result<Box<Account>, anyhow::Error> {
     Ok(Account(vodozemac::olm::Account::from_libolm_pickle(
         pickle, pickle_key,

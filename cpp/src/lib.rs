@@ -76,7 +76,7 @@ mod ffi {
         fn mark_keys_as_published(self: &mut Account);
         fn max_number_of_one_time_keys(self: &Account) -> usize;
         fn account_from_pickle(pickle: &str, pickle_key: &[u8; 32]) -> Result<Box<Account>>;
-        fn account_from_libolm_pickle(pickle: &str, pickle_key: &str) -> Result<Box<Account>>;
+        fn account_from_libolm_pickle(pickle: &str, pickle_key: &[u8]) -> Result<Box<Account>>;
         fn pickle(self: &Account, pickle_key: &[u8; 32]) -> String;
         fn create_outbound_session(
             self: &Account,
@@ -101,7 +101,7 @@ mod ffi {
         fn encrypt(self: &mut Session, plaintext: &str) -> Box<OlmMessage>;
         fn decrypt(self: &mut Session, message: &OlmMessage) -> Result<String>;
         fn session_from_pickle(pickle: &str, pickle_key: &[u8; 32]) -> Result<Box<Session>>;
-        fn session_from_libolm_pickle(pickle: &str, pickle_key: &str) -> Result<Box<Session>>;
+        fn session_from_libolm_pickle(pickle: &str, pickle_key: &[u8]) -> Result<Box<Session>>;
         fn pickle(self: &Session, pickle_key: &[u8; 32]) -> String;
         fn has_received_message(self: &Session) -> bool;
 
