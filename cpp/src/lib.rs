@@ -64,6 +64,11 @@ mod ffi {
         type Ed25519PublicKey;
         fn ed25519_key_from_base64(key: &str) -> Result<Box<Ed25519PublicKey>>;
         fn to_base64(self: &Ed25519PublicKey) -> String;
+        fn verify(
+            self: &Ed25519PublicKey,
+            message: &[u8],
+            signature: &Ed25519Signature,
+        ) -> Result<()>;
         type Ed25519Signature;
         fn ed25519_signature_from_base64(key: &str) -> Result<Box<Ed25519Signature>>;
         fn to_base64(self: &Ed25519Signature) -> String;

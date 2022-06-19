@@ -28,6 +28,15 @@ impl Ed25519PublicKey {
     pub fn to_base64(&self) -> String {
         self.0.to_base64()
     }
+
+    pub fn verify(
+        &self,
+        message: &[u8],
+        signature: &Ed25519Signature,
+    ) -> Result<(), anyhow::Error> {
+        self.0.verify(message, &signature.0)?;
+        Ok(())
+    }
 }
 
 pub fn ed25519_key_from_base64(key: &str) -> Result<Box<Ed25519PublicKey>, anyhow::Error> {
