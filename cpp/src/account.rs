@@ -1,5 +1,5 @@
 use super::{
-    ffi::{InboundCreationResult, OlmMessageParts, OneTimeKey},
+    ffi::{InboundCreationResult, MessageType, OlmMessageParts, OneTimeKey},
     Curve25519PublicKey, Ed25519PublicKey, Ed25519Signature, Session,
 };
 
@@ -14,6 +14,22 @@ impl OlmMessage {
             message_type,
         }
     }
+
+    pub fn message_type(&self) -> MessageType {
+        match self.0.message_type() {
+            vodozemac::olm::MessageType::PreKey => MessageType::PreKey,
+            vodozemac::olm::MessageType::Normal => MessageType::Normal,
+        }
+    }
+
+    pub fn as_pre_key_message(&self) -> Result<Box<PreKeyMessage>, anyhow::Error> {
+        match &self.0 {
+            vodozemac::olm::OlmMessage::PreKey(m) => Ok(PreKeyMessage(m.clone()).into()),
+            _ => Err(anyhow::anyhow!(
+                "Attempted convert normal message to prekey"
+            )),
+        }
+    }
 }
 
 pub fn olm_message_from_parts(parts: &OlmMessageParts) -> Result<Box<OlmMessage>, anyhow::Error> {
@@ -22,6 +38,14 @@ pub fn olm_message_from_parts(parts: &OlmMessageParts) -> Result<Box<OlmMessage>
         &parts.ciphertext,
     )?)
     .into())
+}
+
+pub struct PreKeyMessage(pub(crate) vodozemac::olm::PreKeyMessage);
+
+impl PreKeyMessage {
+    pub fn identity_key(&self) -> Box<Curve25519PublicKey> {
+        Curve25519PublicKey(self.0.identity_key()).into()
+    }
 }
 
 pub struct Account(vodozemac::olm::Account);

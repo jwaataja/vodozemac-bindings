@@ -6,7 +6,7 @@ mod types;
 
 use account::{
     account_from_libolm_pickle, account_from_pickle, new_account, olm_message_from_parts, Account,
-    OlmMessage,
+    OlmMessage, PreKeyMessage,
 };
 use group_sessions::{
     exported_session_key_from_base64, group_session_from_libolm_pickle, group_session_from_pickle,
@@ -48,6 +48,12 @@ mod ffi {
         identity_key: Box<Curve25519PublicKey>,
         base_key: Box<Curve25519PublicKey>,
         one_time_key: Box<Curve25519PublicKey>,
+    }
+
+    #[namespace = "olm"]
+    enum MessageType {
+        PreKey,
+        Normal,
     }
 
     #[namespace = "types"]
@@ -109,6 +115,11 @@ mod ffi {
         type OlmMessage;
         fn to_parts(self: &OlmMessage) -> OlmMessageParts;
         fn olm_message_from_parts(parts: &OlmMessageParts) -> Result<Box<OlmMessage>>;
+        fn message_type(self: &OlmMessage) -> MessageType;
+        fn as_pre_key_message(self: &OlmMessage) -> Result<Box<PreKeyMessage>>;
+
+        type PreKeyMessage;
+        fn identity_key(self: &PreKeyMessage) -> Box<Curve25519PublicKey>;
     }
 
     #[namespace = "megolm"]
