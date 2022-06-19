@@ -74,6 +74,18 @@ pub fn group_session_from_pickle(pickle: &str, pickle_key: &[u8; 32]) -> Result<
     Ok(GroupSession(vodozemac::megolm::GroupSession::from_pickle(pickle)).into())
 }
 
+pub fn group_session_from_libolm_pickle(
+    pickle: &str,
+    pickle_key: &[u8],
+) -> Result<Box<GroupSession>, anyhow::Error> {
+    Ok(
+        GroupSession(vodozemac::megolm::GroupSession::from_libolm_pickle(
+            pickle, pickle_key,
+        )?)
+        .into(),
+    )
+}
+
 pub struct InboundGroupSession(vodozemac::megolm::InboundGroupSession);
 
 pub fn new_inbound_group_session(session_key: &SessionKey) -> Box<InboundGroupSession> {
@@ -90,6 +102,18 @@ pub fn inbound_group_session_from_pickle(
 ) -> Result<Box<InboundGroupSession>> {
     let pickle = vodozemac::megolm::InboundGroupSessionPickle::from_encrypted(pickle, pickle_key)?;
     Ok(InboundGroupSession(vodozemac::megolm::InboundGroupSession::from_pickle(pickle)).into())
+}
+
+pub fn inbound_group_session_from_libolm_pickle(
+    pickle: &str,
+    pickle_key: &[u8],
+) -> Result<Box<InboundGroupSession>, anyhow::Error> {
+    Ok(
+        InboundGroupSession(vodozemac::megolm::InboundGroupSession::from_libolm_pickle(
+            pickle, pickle_key,
+        )?)
+        .into(),
+    )
 }
 
 impl InboundGroupSession {

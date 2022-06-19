@@ -9,7 +9,8 @@ use account::{
     OlmMessage,
 };
 use group_sessions::{
-    exported_session_key_from_base64, group_session_from_pickle, import_inbound_group_session,
+    exported_session_key_from_base64, group_session_from_libolm_pickle, group_session_from_pickle,
+    import_inbound_group_session, inbound_group_session_from_libolm_pickle,
     inbound_group_session_from_pickle, megolm_message_from_base64, new_group_session,
     new_inbound_group_session, session_key_from_base64, ExportedSessionKey, GroupSession,
     InboundGroupSession, MegolmMessage, SessionKey,
@@ -141,6 +142,10 @@ mod ffi {
             pickle: &str,
             pickle_key: &[u8; 32],
         ) -> Result<Box<GroupSession>>;
+        fn group_session_from_libolm_pickle(
+            pickle: &str,
+            pickle_key: &[u8],
+        ) -> Result<Box<GroupSession>>;
 
         type InboundGroupSession;
         fn new_inbound_group_session(session_key: &SessionKey) -> Box<InboundGroupSession>;
@@ -161,6 +166,10 @@ mod ffi {
         fn inbound_group_session_from_pickle(
             pickle: &str,
             pickle_key: &[u8; 32],
+        ) -> Result<Box<InboundGroupSession>>;
+        fn inbound_group_session_from_libolm_pickle(
+            pickle: &str,
+            pickle_key: &[u8],
         ) -> Result<Box<InboundGroupSession>>;
     }
 
